@@ -5,3 +5,12 @@ node_modules/
 *.swo
 *.swn
 __pycache__/
+# Ignore Gradle build files
+*.apk
+*.dex
+*.bin
+*.xml
+
+# Ignore Gradle directories
+.gradle/
+build/
