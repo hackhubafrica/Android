@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.example.helloworldapp-merged_res-25:/layout_activity_main.xml.flat",
+        "source": "com.example.helloworldapp-main-27:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.helloworldapp-merged_res-25:/layout_activity_date.xml.flat",
+        "source": "com.example.helloworldapp-main-27:/layout/activity_date.xml"
+    }
+]
