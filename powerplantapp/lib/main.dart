@@ -1,125 +1,325 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'database_helper.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Initialize sqflite for desktop platforms
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+
+  runApp(PowerPlantApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PowerPlantApp extends StatelessWidget {
+  const PowerPlantApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PowerPlantApp',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('PowerPlantApp'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Menu'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            ListTile(
+              title: Text('Data Collection'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DataCollectionPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('View Collected Data'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DataViewPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Analysis'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AnalysisPage()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Visualization'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VisualizationPage()),
+                );
+              },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Center(
+        child: Text('Welcome to PowerPlantApp!'),
+      ),
     );
   }
+}
+
+class DataCollectionPage extends StatefulWidget {
+  const DataCollectionPage({super.key});
+
+  @override
+  DataCollectionPageState createState() => DataCollectionPageState();
+}
+
+class DataCollectionPageState extends State<DataCollectionPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _voltageController = TextEditingController();
+  final TextEditingController _currentController = TextEditingController();
+  final TextEditingController _powerController = TextEditingController();
+  final TextEditingController _frequencyController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Data Collection'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              TextFormField(
+                controller: _voltageController,
+                decoration: InputDecoration(labelText: 'Voltage (V)'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter voltage';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _currentController,
+                decoration: InputDecoration(labelText: 'Current (A)'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter current';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _powerController,
+                decoration: InputDecoration(labelText: 'Power (W)'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter power';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _frequencyController,
+                decoration: InputDecoration(labelText: 'Frequency (Hz)'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter frequency';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    Map<String, dynamic> data = {
+                      'voltage': double.parse(_voltageController.text),
+                      'current': double.parse(_currentController.text),
+                      'power': double.parse(_powerController.text),
+                      'frequency': double.parse(_frequencyController.text),
+                    };
+                    await DatabaseHelper().insertData(data);
+                    if (mounted) {
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Data collected successfully')),
+                      );
+                    }
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DataViewPage extends StatelessWidget {
+  const DataViewPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Collected Data'),
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: DatabaseHelper().getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No data available'));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                var data = snapshot.data![index];
+                return ListTile(
+                  title: Text('Voltage: ${data['voltage']} V'),
+                  subtitle: Text(
+                      'Current: ${data['current']} A\nPower: ${data['power']} W\nFrequency: ${data['frequency']} Hz\nTimestamp: ${data['timestamp']}'),
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AnalysisPage extends StatelessWidget {
+  const AnalysisPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Analysis'),
+      ),
+      body: Center(
+        child: Text('Analysis Page'),
+      ),
+    );
+  }
+}
+
+class VisualizationPage extends StatelessWidget {
+  const VisualizationPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Visualization'),
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: DatabaseHelper().getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No data available'));
+          } else {
+            return VisualizationChart(data: snapshot.data!);
+          }
+        },
+      ),
+    );
+  }
+}
+
+class VisualizationChart extends StatelessWidget {
+  final List<Map<String, dynamic>> data;
+
+  VisualizationChart({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    List<FlSpot> voltageSpots = data
+        .map((e) => FlSpot(
+            DateTime.parse(e['timestamp']).millisecondsSinceEpoch.toDouble(),
+            e['voltage']))
+        .toList();
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: LineChart(
+        LineChartData(
+          lineBarsData: [
+            LineChartBarData(
+              spots: voltageSpots,
+              isCurved: true,
+              color: Colors.blue, // Updated parameter
+              barWidth: 2,
+              belowBarData: BarAreaData(show: false),
+            ),
+          ],
+          titlesData: FlTitlesData(
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  DateTime date =
+                      DateTime.fromMillisecondsSinceEpoch(value.toInt());
+                  return Text('${date.month}/${date.day}');
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DataPoint {
+  final DateTime time;
+  final double value;
+
+  DataPoint(this.time, this.value);
 }
