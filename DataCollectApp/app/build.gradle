@@ -6,7 +6,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.helloworldapp"
+        applicationId "com.datacollect"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -24,6 +24,6 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
-		implementation 'androidx.room:room-runtime:2.5.0'
+	implementation 'androidx.room:room-runtime:2.5.0'
     annotationProcessor 'androidx.room:room-compiler:2.5.0'
 }

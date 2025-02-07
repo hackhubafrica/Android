@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.yourapp.model.PowerReading;
+import com.datacollect.model.PowerReading;
 
 import java.util.List;
 

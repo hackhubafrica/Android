@@ -4,32 +4,30 @@ Flutter: If you want cross-platform support for future scalability (Android, iOS
 Core Features
 Data Collection
 
-Manual input forms for engineers.
+# Manual input forms for engineers.
 Bluetooth/Wi-Fi/IoT sensor integration (if needed).
 Data Processing
 
-Calculate power generation/consumption.
+# Calculate power generation/consumption.
 Store data locally (SQLite) or in the cloud (Firebase, PostgreSQL, or a custom backend).
 Visualization
 
-Use charts (MPAndroidChart for Java, or Flutter Charts for Flutter).
+# Use charts (MPAndroidChart for Java, or Flutter Charts for Flutter).
 Real-time dashboards.
 Report Generation
 
-Export reports in PDF/CSV.
+# Export reports in PDF/CSV.
 Share reports via email or cloud storage.
-Authentication & User Management (Optional)
-
+ 
+# Authentication & User Management (Optional)
 Secure access with user roles.
 
 # Recommended Tech Stack
-Language: Java or Kotlin (Java preferred since you're new to Android development).
-Database: SQLite (via Room ORM for easier management).
-Charts & Visualization: MPAndroidChart (lightweight and great for graphing).
-Report Generation: iTextPDF or Apache POI (for exporting data as PDFs).
-UI Framework: Jetpack Compose (modern) or XML-based layouts (traditional).
-Project Structure
-Data Collection Module
+`Language:` Java or Kotlin (Java preferred since you're new to Android development).
+`Database:` SQLite (via Room ORM for easier management).
+`Charts & Visualization:` MPAndroidChart (lightweight and great for graphing).
+`Report Generation:` iTextPDF or Apache POI (for exporting data as PDFs).
+`UI Framework:` Jetpack Compose (modern) or XML-based layouts (traditional).
 
 ## Form-based input for power readings.
 Dropdowns or input fields for electrical parameters (voltage, current, power, etc.).

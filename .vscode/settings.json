@@ -1,0 +1,11 @@
+{
+    "terminal.integrated.defaultProfile.windows": "",
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editor.pinnedTabsOnSeparateRow": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.scrollToSwitchTabs": false,
+    "workbench.editor.wrapTabs": true,
+    "terminal.integrated.tabs.location": "left"
+}

@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.yourapp.database.AppDatabase;
-import com.yourapp.database.PowerReadingDao;
-import com.yourapp.model.PowerReading;
+import com.datacollect.database.AppDatabase;
+import com.datacollect.database.PowerReadingDao;
+import com.datacollect.model.PowerReading;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -5,7 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.yourapp.model.PowerReading;
+import com.datacollect.model.PowerReading;
 
 @Database(entities = {PowerReading.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
